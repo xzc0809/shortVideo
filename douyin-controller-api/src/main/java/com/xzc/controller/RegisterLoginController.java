@@ -50,10 +50,15 @@ public class RegisterLoginController extends BaseController{
                 users.setFansCounts(0);
                 users.setFollowCounts(0);
                 usersService.itriptxAddUsers(users);
+
+                Users user=usersService.getUsersByUserName(users.getUsername());
+                users.setPassword(null);
+                String uniqueToken=UUID.randomUUID().toString();//设置token
+                redisUtil.set(USER_REDIS_SESSION+":"+user.getId(),uniqueToken,1000*60*30);
             }
         }
-        users.setPassword(null);
-        return JSONResult.ok(users );
+
+        return JSONResult.ok(users);
     }
 
     @PostMapping(value = "/login")
