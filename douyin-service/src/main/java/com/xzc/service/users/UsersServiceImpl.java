@@ -25,6 +25,10 @@ public class UsersServiceImpl implements UsersService {
         return usersMapper.getUsersById(id);
     }
 
+    public Users getUsersByUserName(String username) throws Exception{
+        return usersMapper.getUsersByUserName(username);
+    }
+
     public List<Users>	getUsersListByMap(Map<String,Object> param)throws Exception{
         return usersMapper.getUsersListByMap(param);
     }

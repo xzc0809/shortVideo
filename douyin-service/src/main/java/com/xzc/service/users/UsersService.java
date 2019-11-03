@@ -12,11 +12,11 @@ package com.xzc.service.users;
 
     public Users getUsersById(Long id)throws Exception;
 
-    public List<Users>    getUsersListByMap(Map
-                                                    <String, Object> param)throws Exception;
+    public Users getUsersByUserName( String username) throws Exception;
 
-    public Integer getUsersCountByMap(Map
-                                              <String, Object> param)throws Exception;
+    public List<Users> getUsersListByMap(Map<String, Object> param)throws Exception;
+
+    public Integer getUsersCountByMap(Map<String, Object> param)throws Exception;
 
     public Integer itriptxAddUsers(Users users)throws Exception;
 
@@ -24,6 +24,5 @@ package com.xzc.service.users;
 
     public Integer itriptxDeleteUsersById(Long id)throws Exception;
 
-    public Page<Users> queryUsersPageByMap(Map
-                                                   <String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
+    public Page<Users> queryUsersPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
 }
