@@ -94,6 +94,7 @@
 
     <insert id="insertUsers" parameterType="com.xzc.pojo.Users">
         insert into users(
+                        id,
                         username,
                         password,
                         face_image,
@@ -102,6 +103,7 @@
                         follow_counts,
                         receive_like_counts)
         values(
+                      #{id},
                      #{username},
                      #{password},
                      #{faceImage},
