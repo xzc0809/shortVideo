@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="douyin-common" />
+        <module name="douyin-controller-api" />
+        <module name="douyin-mapper" />
+        <module name="douyin-pojo" />
+        <module name="douyin-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="douyin" target="1.8" />
+      <module name="douyin-common" target="1.8" />
+      <module name="douyin-controller-api" target="1.8" />
+      <module name="douyin-mapper" target="1.8" />
+      <module name="douyin-pojo" target="1.8" />
+      <module name="douyin-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="douyin" options="-parameters" />
+      <module name="douyin-common" options="-parameters" />
+      <module name="douyin-controller-api" options="-parameters" />
+      <module name="douyin-mapper" options="-parameters" />
+      <module name="douyin-pojo" options="-parameters" />
+      <module name="douyin-service" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzc.mapper.BgmMapper">
+
+    <select id="getBgmById" resultType="com.xzc.pojo.Bgm" >
+        select
+                id as id,
+                author as author,
+                name as name,
+                path as path
+        from bgm
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getBgmListByMap" resultType="com.xzc.pojo.Bgm" parameterType="java.util.Map">
+        select
+                id as id,
+                author as author,
+                name as name,
+                path as path
+        from bgm
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="author != null and author!=''">
+                        and author=#{author}
+                    </if>
+                    <if test="name != null and name!=''">
+                        and name=#{name}
+                    </if>
+        </trim>
+         order by creationDate desc
+        <if test="beginPos != null and beginPos!='' and pageSize != null  and pageSize !='' ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getBgmCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from bgm
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="author != null and author!=''">
+                    and author=#{author}
+                </if>
+                <if test="name != null and name!=''">
+                    and name=#{name}
+                </if>
+                <if test="path != null and path!=''">
+                    and path=#{path}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertBgm" parameterType="com.xzc.pojo.Bgm">
+        insert into bgm(
+                        author,
+                        name,
+                        path)
+        values(
+                     #{author},
+                     #{name},
+                    #{path})
+    </insert>
+
+    <update id="updateBgm" parameterType="com.xzc.pojo.Bgm">
+        update bgm
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="author != null and author!=''">
+                        author=#{author},
+                    </if>
+                    <if test="name != null and name!=''">
+                        name=#{name},
+                    </if>
+                    <if test="path != null and path!=''">
+                        path=#{path}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteBgmById" parameterType="Long">
+        delete from bgm where id = #{id}
+    </delete>
+</mapper>

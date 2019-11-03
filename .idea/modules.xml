@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/douyin.iml" filepath="$PROJECT_DIR$/douyin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douyin-common/douyin-common.iml" filepath="$PROJECT_DIR$/douyin-common/douyin-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douyin-controller-api/douyin-controller-api.iml" filepath="$PROJECT_DIR$/douyin-controller-api/douyin-controller-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douyin-mapper/douyin-mapper.iml" filepath="$PROJECT_DIR$/douyin-mapper/douyin-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douyin-pojo/douyin-pojo.iml" filepath="$PROJECT_DIR$/douyin-pojo/douyin-pojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/douyin-service/douyin-service.iml" filepath="$PROJECT_DIR$/douyin-service/douyin-service.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzc.mapper.SearchRecordsMapper">
+
+    <select id="getSearchRecordsById" resultType="com.xzc.pojo.SearchRecords" >
+        select
+                id as id,
+                content as content
+        from search_records
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getSearchRecordsListByMap" resultType="com.xzc.pojo.SearchRecords" parameterType="java.util.Map">
+        select
+                id as id,
+                content as content
+        from search_records
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+        </trim>
+         order by creationDate desc
+        <if test="beginPos != null and beginPos!='' and pageSize != null  and pageSize !='' ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getSearchRecordsCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from search_records
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="content != null and content!=''">
+                    and content=#{content}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertSearchRecords" parameterType="com.xzc.pojo.SearchRecords">
+        insert into search_records(
+                        content)
+        values(
+                    #{content})
+    </insert>
+
+    <update id="updateSearchRecords" parameterType="com.xzc.pojo.SearchRecords">
+        update search_records
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="content != null and content!=''">
+                        content=#{content}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteSearchRecordsById" parameterType="Long">
+        delete from search_records where id = #{id}
+    </delete>
+</mapper>

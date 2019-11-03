@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzc.mapper.UsersLikeVideosMapper">
+
+    <select id="getUsersLikeVideosById" resultType="com.xzc.pojo.UsersLikeVideos" >
+        select
+                id as id,
+                user_id as userId,
+                video_id as videoId
+        from users_like_videos
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getUsersLikeVideosListByMap" resultType="com.xzc.pojo.UsersLikeVideos" parameterType="java.util.Map">
+        select
+                id as id,
+                user_id as userId,
+                video_id as videoId
+        from users_like_videos
+        <trim prefix="where" prefixOverrides="and | or">
+                    <if test="id != null and id!=''">
+                        and id=#{id}
+                    </if>
+                    <if test="userId != null and userId!=''">
+                        and user_id=#{userId}
+                    </if>
+        </trim>
+         order by creationDate desc
+        <if test="beginPos != null and beginPos!='' and pageSize != null  and pageSize !='' ">
+            limit #{beginPos},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getUsersLikeVideosCountByMap" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) from users_like_videos
+        <trim prefix="where" prefixOverrides="and | or">
+                <if test="id != null and id!=''">
+                    and id=#{id}
+                </if>
+                <if test="userId != null and userId!=''">
+                    and user_id=#{userId}
+                </if>
+                <if test="videoId != null and videoId!=''">
+                    and video_id=#{videoId}
+                </if>
+        </trim>
+    </select>
+
+    <insert id="insertUsersLikeVideos" parameterType="com.xzc.pojo.UsersLikeVideos">
+        insert into users_like_videos(
+                        user_id,
+                        video_id)
+        values(
+                     #{userId},
+                    #{videoId})
+    </insert>
+
+    <update id="updateUsersLikeVideos" parameterType="com.xzc.pojo.UsersLikeVideos">
+        update users_like_videos
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+                    <if test="id != null and id!=''">
+                        id=#{id},
+                    </if>
+                    <if test="userId != null and userId!=''">
+                        user_id=#{userId},
+                    </if>
+                    <if test="videoId != null and videoId!=''">
+                        video_id=#{videoId}
+                    </if>
+        </trim>
+    </update>
+
+    <delete id="deleteUsersLikeVideosById" parameterType="Long">
+        delete from users_like_videos where id = #{id}
+    </delete>
+</mapper>
