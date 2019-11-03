@@ -22,6 +22,24 @@
         </trim>
     </select>
 
+    <select id="getUsersByUserName" resultType="com.xzc.pojo.Users" >
+        select
+        id as id,
+        username as username,
+        password as password,
+        face_image as faceImage,
+        nickname as nickname,
+        fans_counts as fansCounts,
+        follow_counts as followCounts,
+        receive_like_counts as receiveLikeCounts
+        from users
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="username != null">
+                and username=#{username}
+            </if>
+        </trim>
+    </select>
+
     <select id="getUsersListByMap" resultType="com.xzc.pojo.Users" parameterType="java.util.Map">
         select
                 id as id,
