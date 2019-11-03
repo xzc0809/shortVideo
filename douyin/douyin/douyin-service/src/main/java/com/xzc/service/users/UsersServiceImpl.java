@@ -4,6 +4,7 @@ import com.xzc.pojo.Users;
 /////
 import com.xzc.common.EmptyUtils;
 import com.xzc.common.Page;
+import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.xzc.common.Constants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class UsersServiceImpl implements UsersService {
 
@@ -24,13 +28,14 @@ public class UsersServiceImpl implements UsersService {
     public List<Users>	getUsersListByMap(Map<String,Object> param)throws Exception{
         return usersMapper.getUsersListByMap(param);
     }
-
+    @Transactional(propagation=Propagation.SUPPORTS)
     public Integer getUsersCountByMap(Map<String,Object> param)throws Exception{
         return usersMapper.getUsersCountByMap(param);
     }
-
+@Transactional(propagation=Propagation.REQUIRED)//事务管理
     public Integer itriptxAddUsers(Users users)throws Exception{
-
+        String sid=new Sid().nextShort();//全局唯一id
+        users.setId(sid);
             return usersMapper.insertUsers(users);
     }
 
