@@ -6,6 +6,7 @@ import com.xzc.common.EmptyUtils;
 import com.xzc.common.RedisUtil;
 import com.xzc.config.RedisConfig;
 import com.xzc.pojo.Users;
+import com.xzc.pojo.Vo.UsersVo;
 import com.xzc.service.users.UsersService;
 import com.xzc.utils.JSONResult;
 import com.xzc.utils.MD5Utils;
@@ -13,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.catalina.User;
 import org.n3r.idworker.Sid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.spring.web.json.Json;
@@ -43,22 +45,23 @@ public class RegisterLoginController extends BaseController{
             if (usersService.getUsersCountByMap(map)!=0){
                 return JSONResult.errorMsg("用户名已存在");
             }else{
+                String sid=new Sid().nextShort();//设置全局唯一id
+                users.setId(sid);
                 users.setPassword(MD5Utils.getMD5Str(users.getPassword()));
                 users.setReceiveLikeCounts(0);
                 users.setNickname(users.getUsername());
                 users.setUsername(users.getUsername());
                 users.setFansCounts(0);
                 users.setFollowCounts(0);
-                usersService.itriptxAddUsers(users);
+                usersService.itriptxAddUsers(users);//保存用户
 
-                Users user=usersService.getUsersByUserName(users.getUsername());
                 users.setPassword(null);
-                String uniqueToken=UUID.randomUUID().toString();//设置token
-                redisUtil.set(USER_REDIS_SESSION+":"+user.getId(),uniqueToken,1000*60*30);
+                return JSONResult.ok(setUserToken(users));//返回vo类
             }
+
         }
 
-        return JSONResult.ok(users);
+
     }
 
     @PostMapping(value = "/login")
@@ -73,8 +76,10 @@ public class RegisterLoginController extends BaseController{
             map.put("username",username);
             if(usersService.getUsersCountByMap(map)!=0){  //用户名存在
                 map.put("password",MD5Utils.getMD5Str(password));
-                if (usersService.getUsersCountByMap(map)!=0){  //验证密码
-                    users.setPassword(null);
+                if (usersService.getUsersByUserName(username)!=null){  //验证密码
+                    Users user2=usersService.getUsersByUserName(username);
+                    user2.setPassword(null);
+                    return JSONResult.ok(setUserToken(user2));
                 }else{
                     return JSONResult.errorMsg("用户名或密码错误");
                 }
@@ -84,14 +89,18 @@ public class RegisterLoginController extends BaseController{
             }
         }
 
-        return  JSONResult.ok(users);
     }
 
-    @GetMapping(value = "/hello3")
-    public String hello3(){
-       String a= redisUtil.get("hello").toString();
 
-       return a;
+    private UsersVo setUserToken(Users userModel){
+        String uniqueToken=UUID.randomUUID().toString();//设置token
+        redisUtil.set(USER_REDIS_SESSION+":"+userModel.getId(),uniqueToken,1000*60*30);
+
+        UsersVo usersVo=new UsersVo();
+        BeanUtils.copyProperties(userModel,usersVo);//将users对象值拷贝给vo
+
+        usersVo.setUserToken(uniqueToken) ;
+        return usersVo;
     }
 
 }
