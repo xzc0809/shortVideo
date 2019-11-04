@@ -95,5 +95,21 @@ public class UserController extends BaseController {
 
     }
 
+    @ApiOperation(value = "查询用户信息", notes = "查询用户信息的api")
+    @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String")
+    @PostMapping(value = "/queryUserInfo")
+    public JSONResult queryUserInfo(@RequestParam(value = "userId") String userId) throws Exception{
+
+        if(EmptyUtils.isEmpty(userId)){
+            return JSONResult.errorMsg("id不能为空");
+        }
+
+        Users users=usersService.getUsersById(userId);
+        UsersVo usersVo=new UsersVo();
+        BeanUtils.copyProperties(users,usersVo);
+        System.out.println("queryUserInfo被调用");
+        return JSONResult.ok(usersVo);
+
+    }
 
 }
