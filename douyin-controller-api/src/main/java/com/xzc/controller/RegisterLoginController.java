@@ -11,6 +11,7 @@ import com.xzc.service.users.UsersService;
 import com.xzc.utils.JSONResult;
 import com.xzc.utils.MD5Utils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.catalina.User;
 import org.n3r.idworker.Sid;
@@ -91,6 +92,13 @@ public class RegisterLoginController extends BaseController{
 
     }
 
+    @ApiOperation(value ="用户注销",notes = "用户注销api")
+    @PostMapping(value = "/logout")
+    @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String",required = true)
+    public JSONResult logout(String userId){
+            redisUtil.del(USER_REDIS_SESSION+":"+userId);
+            return JSONResult.ok();
+    }
 
     private UsersVo setUserToken(Users userModel){
         String uniqueToken=UUID.randomUUID().toString();//设置token
