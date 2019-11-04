@@ -25,7 +25,7 @@ public class HelloWorld {
     }
     @RequestMapping(value = "/hello2")
     public String hello2() throws Exception{
-        return usersService.getUsersById((long)1001).getNickname();
+        return usersService.getUsersById("1001").getNickname();
     }
 
 }

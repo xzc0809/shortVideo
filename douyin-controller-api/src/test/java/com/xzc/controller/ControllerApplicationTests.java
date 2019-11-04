@@ -19,7 +19,7 @@ class ControllerApplicationTests {
      * 数据库连接测试
      */
     public void test1() throws Exception{
-        System.out.println(usersService.getUsersById((long)1001).getNickname());
+        System.out.println(usersService.getUsersById("1001").getNickname());
     }
 
 
