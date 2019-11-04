@@ -10,7 +10,7 @@ package com.xzc.service.users;
     */
     public interface UsersService {
 
-    public Users getUsersById(Long id)throws Exception;
+    public Users getUsersById(String id)throws Exception;
 
     public Users getUsersByUserName( String username) throws Exception;
 
@@ -22,7 +22,7 @@ package com.xzc.service.users;
 
     public Integer itriptxModifyUsers(Users users)throws Exception;
 
-    public Integer itriptxDeleteUsersById(Long id)throws Exception;
+    public Integer itriptxDeleteUsersById(String id)throws Exception;
 
     public Page<Users> queryUsersPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
 }

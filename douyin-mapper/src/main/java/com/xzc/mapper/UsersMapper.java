@@ -8,7 +8,7 @@ import java.util.Map;
 @Mapper
 public interface UsersMapper {
 
-	public Users getUsersById(@Param(value = "id") Long id)throws Exception;
+	public Users getUsersById(@Param(value = "id") String id)throws Exception;
 
 	public Users getUsersByUserName(@Param(value = "username") String username) throws Exception;
 	public List<Users>	getUsersListByMap(Map<String, Object> param)throws Exception;
@@ -19,6 +19,6 @@ public interface UsersMapper {
 
 	public Integer updateUsers(Users users)throws Exception;
 
-	public Integer deleteUsersById(@Param(value = "id") Long id)throws Exception;
+	public Integer deleteUsersById(@Param(value = "id") String id)throws Exception;
 
 }
