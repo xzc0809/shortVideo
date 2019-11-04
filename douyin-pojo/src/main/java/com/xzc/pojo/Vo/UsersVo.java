@@ -1,5 +1,6 @@
 package com.xzc.pojo.Vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,6 +27,7 @@ public class UsersVo implements Serializable {
     @ApiModelProperty(hidden = true)
     private String faceImage;
     //昵称
+    @JsonIgnore
     @ApiModelProperty(value = "昵称", name = "nickname")
     private String nickname;
     //我的粉丝数量
