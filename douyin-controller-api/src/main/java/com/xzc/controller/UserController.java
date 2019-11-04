@@ -42,20 +42,23 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "上传用户头像", notes = "上传用户头像的接口")
     @PostMapping(value = "/uploadFace")
-    public JSONResult uploadFace(@RequestParam(value = "userId") String userId, @RequestParam(value = "file") MultipartFile[] files) throws IOException {
+    public JSONResult uploadFace(@RequestParam(value = "userId") String userId, @RequestParam(value = "file") MultipartFile[] files) throws Exception {
 
-        //fileSpace 是文件上传的命名空间
-        String uploadPathDB = "/" + userId + "/face";//存储到数据库的相对路径
+
+
         if(EmptyUtils.isEmpty(userId)){
             return JSONResult.errorMsg("用户id不能为空");
         }
+        //fileSpace 是文件上传的命名空间
+        String uploadPathDB = null;//设置存储到数据库的相对路径
         FileOutputStream fileOutputStream = null;
         InputStream inputStream = null;
         try {
             if (files != null && files.length != 0) {
                 String filename = files[0].getOriginalFilename();//获取文件名
                 if (EmptyUtils.isNotEmpty(filename)) {
-                    String finalPath = fileSpace + uploadPathDB + "/" + filename;//获取 到最终的存储地址
+                    uploadPathDB="/" + userId + "/face"+"/"+filename;   //数据库相对路径
+                    String finalPath = fileSpace + uploadPathDB ;//获取到最终的绝对的存储地址
                     File outFile = new File(finalPath);
                     System.out.println(finalPath);
 
@@ -65,7 +68,9 @@ public class UserController extends BaseController {
                     fileOutputStream = new FileOutputStream(outFile);
                     inputStream = files[0].getInputStream();
                     IOUtils.copy(inputStream, fileOutputStream);
+
                 }
+
             }else{
                 return JSONResult.errorMsg("上传失败...");
             }
@@ -77,8 +82,16 @@ public class UserController extends BaseController {
                 fileOutputStream.flush();
                 fileOutputStream.close();
             }
+
         }
-        return JSONResult.ok();
+
+        //保存到数据库
+        Users modifyUsers=new Users();
+        modifyUsers.setId(userId);
+        modifyUsers.setFaceImage(uploadPathDB);
+        usersService.itriptxModifyUsers(modifyUsers);
+
+        return JSONResult.ok(uploadPathDB);
 
     }
 
