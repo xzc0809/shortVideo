@@ -21,13 +21,13 @@ public class UsersVo implements Serializable {
     @ApiModelProperty(value = "token", name = "userToken")
     private String userToken;
     //密码
+    @JsonIgnore
     @ApiModelProperty(value = "密码", name = "password", required = true)
     private String password;
     //我的头像，如果没有默认给一张
     @ApiModelProperty(hidden = true)
     private String faceImage;
     //昵称
-    @JsonIgnore
     @ApiModelProperty(value = "昵称", name = "nickname")
     private String nickname;
     //我的粉丝数量
