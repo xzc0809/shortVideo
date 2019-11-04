@@ -38,8 +38,6 @@ public class UsersServiceImpl implements UsersService {
     }
 @Transactional(propagation=Propagation.REQUIRED)//事务管理
     public Integer itriptxAddUsers(Users users)throws Exception{
-        String sid=new Sid().nextShort();//全局唯一id
-        users.setId(sid);
             return usersMapper.insertUsers(users);
     }
 
