@@ -17,7 +17,6 @@ public class Users implements Serializable {
         @ApiModelProperty(value = "用户名",name = "username",required = true)
             private String username;
         //密码
-
         @ApiModelProperty(value = "密码",name = "password",required = true)
             private String password;
         //我的头像，如果没有默认给一张
