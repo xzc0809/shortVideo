@@ -38,18 +38,19 @@ public class VideoController {
     @ApiOperation(value = "上传用户视频", notes = "上传用户视频的接口")
     @PostMapping(value = "/upload", headers="content-type=multipart/form-data")
     @ApiImplicitParams({
-            @ApiImplicitParam(value = "用户id", name = "userId", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(value = "背景音乐id", name = "bgmId", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(value = "width", name = "width", dataType = "int", paramType = "query", required = true),
-            @ApiImplicitParam(value = "height", name = "height", dataType = "int", paramType = "query", required = true),
-            @ApiImplicitParam(value = "秒数", name = "videoSeconds", dataType = "double", paramType = "query", required = true),
-            @ApiImplicitParam(value = "视频描述", name = "desc", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(value = "用户id", name = "userId", dataType = "String", paramType = "form", required = true),
+            @ApiImplicitParam(value = "背景音乐id", name = "bgmId", dataType = "String", paramType = "form"),
+            @ApiImplicitParam(value = "width", name = "width", dataType = "int", paramType = "form", required = true),
+            @ApiImplicitParam(value = "height", name = "height", dataType = "int", paramType = "form", required = true),
+            @ApiImplicitParam(value = "秒数", name = "videoSeconds", dataType = "double", paramType = "form", required = true),
+            @ApiImplicitParam(value = "视频描述", name = "desc", dataType = "String", paramType = "form"),
+            
 
 
     })
     public JSONResult uploadVideo(String userId, @ApiParam(value="短视频", required=true) MultipartFile file, @RequestParam(value = "bgmId",required = false)String bgmId, Integer width, Integer height, Double videoSeconds, @RequestParam(value = "desc",required = false) String desc) throws Exception {
 
-
+        System.out.println("/video/upload被调用");
         if (EmptyUtils.isEmpty(userId)) {
             return JSONResult.errorMsg("用户id不能为空");//判空
         }
