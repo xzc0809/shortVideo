@@ -107,13 +107,48 @@ public class MergeVideoMp3 {
 		}
 
 	}
+//    public void delFile(String path,String fileName) throws Exception {
+////		del video2.mp4
+//        List<String> command = new ArrayList<>();
+//        command.add(path);
+//
+//        command.add("del");
+//        command.add(fileName);
+//
+//
+//        ProcessBuilder builder = new ProcessBuilder(command);
+//        Process process = builder.start();
+//
+//        InputStream errorStream = process.getErrorStream();
+//        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+//        BufferedReader br = new BufferedReader(inputStreamReader);
+//
+//        String line = "";
+//        while ( (line = br.readLine()) != null ) {
+//        }
+//
+//        if (br != null) {
+//            br.close();
+//        }
+//        if (inputStreamReader != null) {
+//            inputStreamReader.close();
+//        }
+//        if (errorStream != null) {
+//            errorStream.close();
+//        }
+//
+//    }
 
 
-	public static void main(String[] args) {
+
+
+
+    public static void main(String[] args) {
 		MergeVideoMp3 ffmpeg = new MergeVideoMp3("H:\\tools\\ffmpeg\\bin\\ffmpeg.exe");
 		try {
 //			ffmpeg.convertor("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo.mp4", "H:\\gitReponsitory\\douyin\\douyin_userFiles\\bgm\\Creep.mp3", 10, "H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo2.mp4");
-			ffmpeg.removeVoice("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo.mp4","H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo2.mp4");
+//			ffmpeg.removeVoice("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo.mp4","H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo2.mp4");
+//		    ffmpeg.delFile("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video","50bf0ca4-7a25-4540-a761-18ba10a4ea6e2.mp4");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
