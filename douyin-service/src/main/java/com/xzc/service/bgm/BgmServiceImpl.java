@@ -17,7 +17,7 @@ public class BgmServiceImpl implements BgmService {
     @Resource
     private BgmMapper bgmMapper;
 
-    public Bgm getBgmById(Long id)throws Exception{
+    public Bgm getBgmById(String id)throws Exception{
         return bgmMapper.getBgmById(id);
     }
 

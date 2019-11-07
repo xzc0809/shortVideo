@@ -10,7 +10,7 @@ package com.xzc.service.bgm;
     */
     public interface BgmService {
 
-    public Bgm getBgmById(Long id)throws Exception;
+    public Bgm getBgmById(String id)throws Exception;
 
     public List<Bgm>    getBgmListByMap(Map
                                                 <String, Object> param)throws Exception;

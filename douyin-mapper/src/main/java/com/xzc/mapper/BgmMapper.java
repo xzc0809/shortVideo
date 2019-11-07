@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface BgmMapper {
 
-	public Bgm getBgmById(@Param(value = "id") Long id)throws Exception;
+	public Bgm getBgmById(@Param(value = "id") String id)throws Exception;
 
 	public List<Bgm>getBgmListByMap(Map<String, Object> param)throws Exception;
 

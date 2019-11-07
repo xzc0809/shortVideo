@@ -12,6 +12,6 @@ public class test {
     UsersMapper usersMapper;
     @Test
     public void test1() throws Exception{
-        System.out.println(usersMapper.getUsersById((long)1001).getNickname());
+        System.out.println(usersMapper.getUsersById("1001").getNickname());
     }
 }
