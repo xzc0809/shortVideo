@@ -8,6 +8,7 @@ import com.xzc.pojo.Videos;
 import com.xzc.service.bgm.BgmService;
 import com.xzc.service.users.UsersService;
 import com.xzc.service.videos.VideosService;
+import com.xzc.utils.FetchVideoCover;
 import com.xzc.utils.JSONResult;
 import com.xzc.utils.MergeVideoMp3;
 import io.swagger.annotations.*;
@@ -41,6 +42,8 @@ public class VideoController {
     UsersService usersService;
     @Value("${file.space}")
     String fileSpace;//文件命名空间
+    @Value("${file.ffmpegEXE}")
+    String ffmpegEXE;
     @Autowired
     VideosService videosService;
     @Autowired
@@ -55,8 +58,6 @@ public class VideoController {
             @ApiImplicitParam(value = "height", name = "height", dataType = "int", paramType = "form", required = true),
             @ApiImplicitParam(value = "秒数", name = "videoSeconds", dataType = "double", paramType = "form", required = true),
             @ApiImplicitParam(value = "视频描述", name = "desc", dataType = "String", paramType = "form"),
-            
-
 
     })
     public JSONResult uploadVideo(String userId, @ApiParam(value="短视频", required=true) MultipartFile file, @RequestParam(value = "bgmId",required = false)String bgmId, Integer width, Integer height, double videoSeconds, @RequestParam(value = "desc",required = false) String desc) throws Exception {
@@ -70,7 +71,8 @@ public class VideoController {
         String finalPath=null;//最终文件存储路径
         FileOutputStream fileOutputStream = null;
         InputStream inputStream = null;
-        String videoOutputPath =null;
+//        String videoOutputPath =null;
+        String coverPathDB=null;
         try {
             if (file != null) {
                 String filename = file.getOriginalFilename();//获取文件名
@@ -125,6 +127,10 @@ public class VideoController {
             finalPath=fileSpace+uploadPathDB;//最后的文件合成输出路径
             tools.convertor(removeVoiceOutPath,inputBgmPath,videoSeconds,finalPath);//转换工具合成视频
 //            tools.delFile(fileSpace+"/" + userId + "/video" ,newVideoName+"2"+".mp4");//删除被消除背景音的视频
+            FetchVideoCover fetchVideoCover=new FetchVideoCover();
+            fetchVideoCover.setFfmpegEXE(ffmpegEXE);//ffmpeg程序路径
+            coverPathDB="/" + userId + "/video/" +newVideoName+".jpg";
+            fetchVideoCover.getCover(finalPath,fileSpace+coverPathDB);
 
         }
         System.out.println("finalPath:"+finalPath);
@@ -141,10 +147,74 @@ public class VideoController {
         videos.setVideoSeconds((float)videoSeconds);
         videos.setCreateTime(new Date());
         videos.setVideoDesc(desc);
+        videos.setCoverPath(coverPathDB);//封面
         videos.setLikeCounts((long)0);
 
         videosService.itriptxAddVideos(videos);
-        return JSONResult.ok();
+        return JSONResult.ok(videos.getId());
+
+    }
+
+    @ApiOperation(value = "上传视频封面", notes = "上传用户视频的接口")
+    @PostMapping(value = "/uploadCover", headers="content-type=multipart/form-data")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="userId", value="用户id", required=true,
+                    dataType="String", paramType="form"),
+            @ApiImplicitParam(name="videoId", value="视频主键id", required=true,
+                    dataType="String", paramType="form")
+
+    })
+    public JSONResult uploadCover(@ApiParam(value="视频封面", required=true) MultipartFile file,String userId,String videoId) throws Exception {
+
+        System.out.println("/video/uploadCover被调用");
+        if (EmptyUtils.isEmpty(userId)||EmptyUtils.isEmpty(videoId)) {
+            return JSONResult.errorMsg("用户id或视频id不能为空");//判空
+        }
+        //fileSpace 是文件上传的命名空间
+        String uploadPathDB = null;//设置存储到数据库的相对路径
+        String finalPath=null;//最终文件存储路径
+        FileOutputStream fileOutputStream = null;
+        InputStream inputStream = null;
+
+        try {
+            if (file != null) {
+                String filename = file.getOriginalFilename();//获取文件名
+                if (EmptyUtils.isNotEmpty(filename)) {
+
+                    uploadPathDB = "/" + userId + "/video"  + filename;   //数据库相对路径
+                    finalPath= fileSpace + uploadPathDB;//最终封面的绝对的存储地址
+                    File outFile = new File(finalPath);
+
+                    if (outFile.getParentFile() != null || !outFile.getParentFile().isDirectory()) {
+                        outFile.getParentFile().mkdirs(); //创建父文件夹
+                    }
+                    fileOutputStream = new FileOutputStream(outFile);
+                    inputStream = file.getInputStream();
+                    IOUtils.copy(inputStream, fileOutputStream);
+                }
+
+            } else {
+                return JSONResult.errorMsg("上传失败...");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JSONResult.errorMsg("上传失败...");
+        } finally {
+            if (fileOutputStream != null) {
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            }
+
+        }
+
+        System.out.println("finalPath:"+finalPath);
+        System.out.println("uploadPath:"+uploadPathDB);
+        //保存到数据库
+        Videos videos=new Videos();
+       videos.setCoverPath(finalPath);
+       videos.setId(videoId);
+        videosService.itriptxModifyVideos(videos);
+        return JSONResult.ok(videos.getId());
 
     }
 
