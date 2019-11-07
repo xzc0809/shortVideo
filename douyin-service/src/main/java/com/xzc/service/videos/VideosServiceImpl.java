@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.xzc.common.Constants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class VideosServiceImpl implements VideosService {
 
@@ -29,6 +32,7 @@ public class VideosServiceImpl implements VideosService {
         return videosMapper.getVideosCountByMap(param);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
     public Integer itriptxAddVideos(Videos videos)throws Exception{
 
             return videosMapper.insertVideos(videos);
