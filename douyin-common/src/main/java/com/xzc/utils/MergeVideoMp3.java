@@ -36,7 +36,7 @@ public class MergeVideoMp3 {
 //		for (String c : command) {
 //			System.out.print(c + " ");
 //		}
-		
+
 		ProcessBuilder builder = new ProcessBuilder(command);
 		Process process = builder.start();
 		
@@ -59,11 +59,61 @@ public class MergeVideoMp3 {
 		}
 		
 	}
+	/**
+	 * @Author xiaozhichao
+	 * @Description //TODO 消除视频背景音
+	 * @Date 18:06 2019/11/7
+	 * @Param * @param null
+	 * @return 
+	 **/
+
+	public void removeVoice(String videoInputPath,String videoOutputPath) throws Exception {
+//		ffmpeg.exe -i video.mp4 -vcodec copy -an video2.mp4
+		List<String> command = new ArrayList<>();
+		command.add(ffmpegEXE);
+
+		command.add("-i");
+		command.add(videoInputPath);
+
+		command.add("-vcodec");
+		command.add("copy");
+		command.add("-an");
+
+		command.add(videoOutputPath);
+
+		for (String c : command) {
+			System.out.print(c + " ");
+		}
+
+		ProcessBuilder builder = new ProcessBuilder(command);
+		Process process = builder.start();
+
+		InputStream errorStream = process.getErrorStream();
+		InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+		BufferedReader br = new BufferedReader(inputStreamReader);
+
+		String line = "";
+		while ( (line = br.readLine()) != null ) {
+		}
+
+		if (br != null) {
+			br.close();
+		}
+		if (inputStreamReader != null) {
+			inputStreamReader.close();
+		}
+		if (errorStream != null) {
+			errorStream.close();
+		}
+
+	}
+
 
 	public static void main(String[] args) {
-		MergeVideoMp3 ffmpeg = new MergeVideoMp3("C:\\ffmpeg\\bin\\ffmpeg.exe");
+		MergeVideoMp3 ffmpeg = new MergeVideoMp3("H:\\tools\\ffmpeg\\bin\\ffmpeg.exe");
 		try {
-			ffmpeg.convertor("C:\\苏州大裤衩.mp4", "C:\\music.mp3", 7.1, "C:\\这是通过java生产的视频.mp4");
+//			ffmpeg.convertor("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo.mp4", "H:\\gitReponsitory\\douyin\\douyin_userFiles\\bgm\\Creep.mp3", 10, "H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo2.mp4");
+			ffmpeg.removeVoice("H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo.mp4","H:\\gitReponsitory\\douyin\\douyin_userFiles\\1001\\video\\newVideo2.mp4");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
