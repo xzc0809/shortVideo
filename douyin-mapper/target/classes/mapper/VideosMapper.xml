@@ -126,6 +126,7 @@
 
     <insert id="insertVideos" parameterType="com.xzc.pojo.Videos">
         insert into videos(
+                        id,
                         user_id,
                         audio_id,
                         video_desc,
@@ -138,6 +139,7 @@
                         status,
                         create_time)
         values(
+                     #{id},
                      #{userId},
                      #{audioId},
                      #{videoDesc},
