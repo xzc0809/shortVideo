@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -217,5 +219,23 @@ public class VideoController {
         return JSONResult.ok(videos.getId());
 
     }
+
+    @ApiOperation(value = "分页获取所有视频", notes = "分页")
+    //, headers="content-type=multipart/form-data"
+    @PostMapping(value = "/showAll")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="pageNo", value="页码", required=true,
+                    dataType="int", paramType="query"),
+            @ApiImplicitParam(name="pageSize", value="容量，默认为10",
+                    dataType="int", paramType="query")
+
+    })
+    public JSONResult showAll(@RequestParam(value = "pageNo",defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize) throws Exception{
+
+        Map map=new HashMap<>();
+        return JSONResult.ok(videosService.getVideosVoListByMap(pageNo,pageSize,map));
+    }
+
+
 
 }
