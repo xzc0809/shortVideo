@@ -68,7 +68,7 @@
             </if>
         </trim>
         order by createTime desc
-        <if test="beginPos != null  pageSize != null  ">
+        <if test="beginPos != null and pageSize != null  ">
             limit #{beginPos},#{pageSize}
         </if>
     </select>
