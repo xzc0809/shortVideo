@@ -5,18 +5,18 @@ package com.xzc.service.videos;
     import java.util.List;
     import java.util.Map;
     import com.xzc.common.Page;
-    /**
+    import com.xzc.pojo.Vo.VideosVo;
+
+/**
     * Created by shang-pc on 2015/11/7.
     */
     public interface VideosService {
 
     public Videos getVideosById(Long id)throws Exception;
 
-    public List<Videos>    getVideosListByMap(Map
-                                                      <String, Object> param)throws Exception;
+    public List<Videos>   getVideosListByMap(Map<String, Object> param)throws Exception;
 
-    public Integer getVideosCountByMap(Map
-                                               <String, Object> param)throws Exception;
+    public Integer getVideosCountByMap(Map<String, Object> param)throws Exception;
 
     public Integer itriptxAddVideos(Videos videos)throws Exception;
 
@@ -24,6 +24,7 @@ package com.xzc.service.videos;
 
     public Integer itriptxDeleteVideosById(Long id)throws Exception;
 
-    public Page<Videos> queryVideosPageByMap(Map
-                                                     <String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
+    public Page<Videos> queryVideosPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
+    //VO的实现方法
+    public Page<VideosVo> getVideosVoListByMap(Integer pageNo,Integer pageSize,Map<String, Object> param)throws Exception;
 }

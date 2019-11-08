@@ -1,9 +1,11 @@
 package com.xzc.service.videos;
 import com.xzc.mapper.VideosMapper;
+import com.xzc.mapper.VideosMapperCustom;
 import com.xzc.pojo.Videos;
 /////
 import com.xzc.common.EmptyUtils;
 import com.xzc.common.Page;
+import com.xzc.pojo.Vo.VideosVo;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -19,6 +21,9 @@ public class VideosServiceImpl implements VideosService {
 
     @Resource
     private VideosMapper videosMapper;
+    @Resource
+    private VideosMapperCustom videosMapperCustom;
+
 
     public Videos getVideosById(Long id)throws Exception{
         return videosMapper.getVideosById(id);
@@ -57,6 +62,20 @@ public class VideosServiceImpl implements VideosService {
         List<Videos> videosList = videosMapper.getVideosListByMap(param);
         page.setRows(videosList);
         return page;
+    }
+
+    @Override
+    public Page<VideosVo> getVideosVoListByMap(Integer pageNo,Integer pageSize,Map<String, Object> param) throws Exception {
+        Integer total = videosMapper.getVideosCountByMap(param);
+        pageNo = EmptyUtils.isEmpty(pageNo) ? Constants.DEFAULT_PAGE_NO : pageNo;
+        pageSize = EmptyUtils.isEmpty(pageSize) ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+        Page page = new Page(pageNo, pageSize, total);
+        param.put("beginPos", page.getBeginPos());
+        param.put("pageSize", page.getPageSize());
+        List<VideosVo> videosList = videosMapperCustom.getVideosVoListByMap(param);
+        page.setRows(videosList);
+        return page;
+
     }
 
 }
