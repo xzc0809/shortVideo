@@ -46,8 +46,10 @@
 
     <insert id="insertSearchRecords" parameterType="com.xzc.pojo.SearchRecords">
         insert into search_records(
+                        id,
                         content)
         values(
+                    #{id}
                     #{content})
     </insert>
 
