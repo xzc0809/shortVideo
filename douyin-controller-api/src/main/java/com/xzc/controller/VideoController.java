@@ -3,7 +3,6 @@ package com.xzc.controller;
 import com.xzc.common.EmptyUtils;
 import com.xzc.enums.VideoStatusEnum;
 import com.xzc.pojo.Bgm;
-import com.xzc.pojo.Users;
 import com.xzc.pojo.Videos;
 import com.xzc.service.bgm.BgmService;
 import com.xzc.service.users.UsersService;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
