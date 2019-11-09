@@ -231,12 +231,21 @@ public class VideoController {
                     dataType = "int", paramType = "query")
 
     })
-    public JSONResult showAll(@RequestBody Videos videos, @RequestParam(value = "isSaveRecord", required = false) Integer isSaveRecord, @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) throws Exception {
+    public JSONResult showAll(@RequestBody Videos videos, @RequestParam(value = "isSaveRecord",defaultValue = "0", required = false) Integer isSaveRecord, @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) throws Exception {
 
         Map map = new HashMap<>();
         //业务逻辑实现 当搜索后：1.获取前端获得的搜索词，判定是否需要保存isSaveRecord=1,然后根据这个搜索词模糊查询视频描述videosDesc，最后将获取的值传出
         //如果不搜索，则不传值，直接获取视频分页列表
         map.put("videoDesc", videos.getVideoDesc());
+
+        if(isSaveRecord!=null&&isSaveRecord==1){//保存搜索词
+            SearchRecords searchRecords=new SearchRecords();
+            Sid sid=new Sid();
+            searchRecords.setId(sid.nextShort());//设置唯一id
+            searchRecords.setContent(videos.getVideoDesc());//设置热搜词
+            searchRecordsService.itriptxAddSearchRecords(searchRecords);//保存到数据库
+        }
+
         return JSONResult.ok(videosService.getVideosVoListByMap(pageNo, pageSize, map));
     }
 
