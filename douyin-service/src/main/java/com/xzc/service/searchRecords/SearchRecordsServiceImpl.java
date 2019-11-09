@@ -55,4 +55,9 @@ public class SearchRecordsServiceImpl implements SearchRecordsService {
         return page;
     }
 
+    @Override
+    public List getHotSearch() throws Exception {
+        return searchRecordsMapper.getHotSearch();
+    }
+
 }

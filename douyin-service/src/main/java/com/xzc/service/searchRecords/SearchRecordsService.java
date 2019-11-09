@@ -27,4 +27,7 @@ public interface SearchRecordsService {
     public Integer itriptxDeleteSearchRecordsById(Long id) throws Exception;
 
     public Page<SearchRecords> querySearchRecordsPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize) throws Exception;
+
+    //获取热搜词
+    public List getHotSearch() throws Exception;
 }
