@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.xzc.common.Constants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class SearchRecordsServiceImpl implements SearchRecordsService {
 
@@ -28,7 +31,7 @@ public class SearchRecordsServiceImpl implements SearchRecordsService {
     public Integer getSearchRecordsCountByMap(Map<String,Object> param)throws Exception{
         return searchRecordsMapper.getSearchRecordsCountByMap(param);
     }
-
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
     public Integer itriptxAddSearchRecords(SearchRecords searchRecords)throws Exception{
 
             return searchRecordsMapper.insertSearchRecords(searchRecords);
