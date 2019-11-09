@@ -21,4 +21,7 @@ public interface SearchRecordsMapper {
 
 	public Integer deleteSearchRecordsById(@Param(value = "id") Long id)throws Exception;
 
+	//获取热搜词
+	public List getHotSearch()throws Exception;
+
 }

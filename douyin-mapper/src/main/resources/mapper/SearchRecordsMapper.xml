@@ -66,4 +66,8 @@
     <delete id="deleteSearchRecordsById" parameterType="Long">
         delete from search_records where id = #{id}
     </delete>
+
+    <select id="getHotSearch" resultType="String" >
+        SELECT content FROM `search_records` GROUP BY content ORDER BY COUNT(content) desc
+    </select>
 </mapper>
