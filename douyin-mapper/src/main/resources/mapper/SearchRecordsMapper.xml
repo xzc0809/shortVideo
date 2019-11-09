@@ -49,7 +49,7 @@
                         id,
                         content)
         values(
-                    #{id}
+                    #{id},
                     #{content})
     </insert>
 
