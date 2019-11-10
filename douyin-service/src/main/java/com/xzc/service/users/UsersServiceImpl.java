@@ -68,4 +68,16 @@ public class UsersServiceImpl implements UsersService {
         return page;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    public void addReceiveLikeCounts(String userId) throws Exception {
+        usersMapper.addReceiveLikeCounts(userId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    public void reduceReceiveLikeCounts(String userId) throws Exception {
+        usersMapper.reduceReceiveLikeCounts(userId);
+    }
+
 }

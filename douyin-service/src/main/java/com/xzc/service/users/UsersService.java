@@ -25,4 +25,8 @@ package com.xzc.service.users;
     public Integer itriptxDeleteUsersById(String id)throws Exception;
 
     public Page<Users> queryUsersPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
+
+    //收到喜欢的数的增加 和减少
+    public void addReceiveLikeCounts(String userId) throws Exception;
+    public void reduceReceiveLikeCounts(String userId) throws Exception;
 }
