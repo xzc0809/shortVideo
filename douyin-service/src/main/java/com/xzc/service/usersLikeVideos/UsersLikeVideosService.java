@@ -15,8 +15,8 @@ package com.xzc.service.usersLikeVideos;
     public List<UsersLikeVideos> getUsersLikeVideosListByMap(Map<String, Object> param)throws Exception;
 
     public Integer getUsersLikeVideosCountByMap(Map<String, Object> param)throws Exception;
-
-    public Integer itriptxAddUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception;
+//修改后的，将对象改为具体参数
+    public Integer itriptxAddUsersLikeVideos(String userId,String videoId)throws Exception;
 
     public Integer itriptxModifyUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception;
 

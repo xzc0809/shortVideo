@@ -1,5 +1,7 @@
 package com.xzc.service.usersLikeVideos;
 import com.xzc.mapper.UsersLikeVideosMapper;
+import com.xzc.mapper.UsersMapper;
+import com.xzc.mapper.VideosMapper;
 import com.xzc.pojo.UsersLikeVideos;
 /////
 import com.xzc.common.EmptyUtils;
@@ -20,12 +22,16 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
 
     @Resource
     private UsersLikeVideosMapper usersLikeVideosMapper;
+    @Resource
+    UsersMapper usersMapper;
+    @Resource
+    VideosMapper videosMapper;
 
     public UsersLikeVideos getUsersLikeVideosById(Long id)throws Exception{
         return usersLikeVideosMapper.getUsersLikeVideosById(id);
     }
 
-    public List<UsersLikeVideos>	getUsersLikeVideosListByMap(Map<String,Object> param)throws Exception{
+    public List<UsersLikeVideos>getUsersLikeVideosListByMap(Map<String,Object> param)throws Exception{
         return usersLikeVideosMapper.getUsersLikeVideosListByMap(param);
     }
 
@@ -33,15 +39,28 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
         return usersLikeVideosMapper.getUsersLikeVideosCountByMap(param);
     }
 
-    public Integer itriptxAddUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception{
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    public Integer itriptxAddUsersLikeVideos(String userId,String videoId)throws Exception{
+        //添加喜欢视频
+        //添加被喜欢视频的用户的被喜欢数
+        //删除喜欢视频的被喜欢数
+        UsersLikeVideos usersLikeVideos=new UsersLikeVideos();
+        String id=new Sid().nextShort();
+        usersLikeVideos.setId(id);
+        usersLikeVideos.setVideoId(videoId);
+        usersLikeVideos.setUserId(userId);
+        usersLikeVideosMapper.updateUsersLikeVideos(usersLikeVideos);
+        usersMapper.addReceiveLikeCounts(userId);
+        videosMapper.addVideoLikeCount(videoId);
 
-            return usersLikeVideosMapper.insertUsersLikeVideos(usersLikeVideos);
+        return 1;
+
+
     }
     @Transactional(propagation = Propagation.REQUIRED)//事务管理
     public Integer itriptxModifyUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception{
-        String id=new Sid().nextShort();
-        usersLikeVideos.setId(id);
         return usersLikeVideosMapper.updateUsersLikeVideos(usersLikeVideos);
+
     }
 
     public Integer itriptxDeleteUsersLikeVideosById(Long id)throws Exception{
@@ -63,8 +82,13 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)//事务管理
     public void deleteUsersLikeVideo(String userId, String videoId) throws Exception {
-
+        //删除喜欢视频
+        //删除被喜欢视频的用户的被喜欢数
+        //删除喜欢视频的被喜欢数
         usersLikeVideosMapper.deleteUsersLikeVideos(userId,videoId);
+        usersMapper.reduceReceiveLikeCounts(userId);
+        videosMapper.reduceVideoLikeCount(videoId);
+
     }
 
 }
