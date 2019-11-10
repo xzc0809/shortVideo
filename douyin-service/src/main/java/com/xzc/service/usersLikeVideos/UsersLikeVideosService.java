@@ -12,11 +12,9 @@ package com.xzc.service.usersLikeVideos;
 
     public UsersLikeVideos getUsersLikeVideosById(Long id)throws Exception;
 
-    public List<UsersLikeVideos>    getUsersLikeVideosListByMap(Map
-                                                                        <String, Object> param)throws Exception;
+    public List<UsersLikeVideos> getUsersLikeVideosListByMap(Map<String, Object> param)throws Exception;
 
-    public Integer getUsersLikeVideosCountByMap(Map
-                                                        <String, Object> param)throws Exception;
+    public Integer getUsersLikeVideosCountByMap(Map<String, Object> param)throws Exception;
 
     public Integer itriptxAddUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception;
 
@@ -24,6 +22,5 @@ package com.xzc.service.usersLikeVideos;
 
     public Integer itriptxDeleteUsersLikeVideosById(Long id)throws Exception;
 
-    public Page<UsersLikeVideos> queryUsersLikeVideosPageByMap(Map
-                                                                       <String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
+    public Page<UsersLikeVideos> queryUsersLikeVideosPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
 }
