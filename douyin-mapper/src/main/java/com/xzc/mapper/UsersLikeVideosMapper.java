@@ -20,4 +20,7 @@ public interface UsersLikeVideosMapper {
 
 	public Integer deleteUsersLikeVideosById(@Param(value = "id") Long id)throws Exception;
 
+	//删除用户喜欢的视频
+	public void deleteUsersLikeVideos(@Param(value="userId") String userId,@Param(value = "videoId") String video_id) throws Exception;
+
 }

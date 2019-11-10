@@ -54,9 +54,11 @@
 
     <insert id="insertUsersLikeVideos" parameterType="com.xzc.pojo.UsersLikeVideos">
         insert into users_like_videos(
+                        id,
                         user_id,
                         video_id)
         values(
+                    #{id},
                      #{userId},
                     #{videoId})
     </insert>
@@ -76,7 +78,11 @@
         </trim>
     </update>
 
-    <delete id="deleteUsersLikeVideosById" parameterType="Long">
+    <delete id="deleteUsersLikeVideosById" parameterType="String">
         delete from users_like_videos where id = #{id}
+    </delete>
+
+    <delete id="deleteUsersLikeVideos" parameterType="String">
+        delete from users_like_videos where user_id = #{userId} and video_id=#{videoId}
     </delete>
 </mapper>
