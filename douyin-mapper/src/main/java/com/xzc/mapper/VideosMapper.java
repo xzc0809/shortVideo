@@ -20,4 +20,6 @@ public interface VideosMapper {
 
 	public Integer deleteVideosById(@Param(value = "id") Long id)throws Exception;
 
+	public void reduceVideoLikeCount(String videoId) throws Exception;
+	public void addVideoLikeCount(String videoId) throws Exception;
 }
