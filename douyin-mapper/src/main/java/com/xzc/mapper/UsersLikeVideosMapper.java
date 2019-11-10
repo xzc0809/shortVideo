@@ -10,7 +10,7 @@ public interface UsersLikeVideosMapper {
 
 	public UsersLikeVideos getUsersLikeVideosById(@Param(value = "id") Long id)throws Exception;
 
-	public List<UsersLikeVideos>	getUsersLikeVideosListByMap(Map<String, Object> param)throws Exception;
+	public List<UsersLikeVideos>getUsersLikeVideosListByMap(Map<String, Object> param)throws Exception;
 
 	public Integer getUsersLikeVideosCountByMap(Map<String, Object> param)throws Exception;
 
