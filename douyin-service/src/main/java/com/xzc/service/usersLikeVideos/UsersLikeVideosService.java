@@ -23,4 +23,7 @@ package com.xzc.service.usersLikeVideos;
     public Integer itriptxDeleteUsersLikeVideosById(Long id)throws Exception;
 
     public Page<UsersLikeVideos> queryUsersLikeVideosPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
-}
+
+    //删除用户喜欢的视频
+    public void deleteUsersLikeVideo(String userId,String videoId) throws Exception;
+    }

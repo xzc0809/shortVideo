@@ -4,6 +4,7 @@ import com.xzc.pojo.UsersLikeVideos;
 /////
 import com.xzc.common.EmptyUtils;
 import com.xzc.common.Page;
+import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.xzc.common.Constants;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
 
@@ -33,9 +37,10 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
 
             return usersLikeVideosMapper.insertUsersLikeVideos(usersLikeVideos);
     }
-
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
     public Integer itriptxModifyUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception{
-
+        String id=new Sid().nextShort();
+        usersLikeVideos.setId(id);
         return usersLikeVideosMapper.updateUsersLikeVideos(usersLikeVideos);
     }
 
@@ -53,6 +58,13 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
         List<UsersLikeVideos> usersLikeVideosList = usersLikeVideosMapper.getUsersLikeVideosListByMap(param);
         page.setRows(usersLikeVideosList);
         return page;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    public void deleteUsersLikeVideo(String userId, String videoId) throws Exception {
+
+        usersLikeVideosMapper.deleteUsersLikeVideos(userId,videoId);
     }
 
 }
