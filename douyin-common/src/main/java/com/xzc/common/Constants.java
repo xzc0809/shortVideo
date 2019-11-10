@@ -9,6 +9,9 @@ public class Constants {
     public static final Integer DEFAULT_PAGE_NO = 1;
     //默认页大小
     public static final Integer DEFAULT_PAGE_SIZE = 5;
+    //Token
+    public static final String USER_REDIS_SESSION="USER_REDIS_SESSION";
+
 
 //    //图片保存路经
 //    public static final String IMAGES_PATH="E:\\Git\\yyqm\\yyqm-controller\\src\\main\\resources\\static\\images\\photo\\";
