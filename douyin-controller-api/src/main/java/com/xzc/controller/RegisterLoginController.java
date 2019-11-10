@@ -48,7 +48,7 @@ public class RegisterLoginController extends BaseController{
             }else{
                 String sid=new Sid().nextShort();//设置全局唯一id
                 users.setId(sid);
-                users.setPassword(MD5Utils.getMD5Str(users.getPassword()));
+                users.setPassword(MD5Utils.getMD5Str(users.getPassword()));//密码使用md5加密算法加密
                 users.setReceiveLikeCounts(0);
                 users.setNickname(users.getUsername());
                 users.setUsername(users.getUsername());
