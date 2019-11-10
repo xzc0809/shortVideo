@@ -78,4 +78,14 @@ public class VideosServiceImpl implements VideosService {
 
     }
 
+    @Override
+    public void reduceVideoLikeCount(String videoId) throws Exception {
+        videosMapper.reduceVideoLikeCount(videoId);
+    }
+
+    @Override
+    public void addVideoLikeCount(String videoId) throws Exception {
+        videosMapper.addVideoLikeCount(videoId);
+    }
+
 }
