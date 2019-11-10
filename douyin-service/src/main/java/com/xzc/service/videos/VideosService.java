@@ -27,4 +27,7 @@ package com.xzc.service.videos;
     public Page<Videos> queryVideosPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
     //VO的实现方法
     public Page<VideosVo> getVideosVoListByMap(Integer pageNo,Integer pageSize,Map<String, Object> param)throws Exception;
+
+    public void reduceVideoLikeCount(String videoId) throws Exception;
+    public void addVideoLikeCount(String videoId) throws Exception;
 }
