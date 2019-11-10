@@ -3,7 +3,7 @@ package com.xzc.controller.interceptor;
 import com.xzc.common.Constants;
 import com.xzc.common.EmptyUtils;
 import com.xzc.common.RedisUtil;
-import com.xzc.controller.BaseController;
+
 import com.xzc.utils.JSONResult;
 import com.xzc.utils.JsonUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -36,7 +36,8 @@ public class MiniInterceptor implements HandlerInterceptor {
         if(EmptyUtils.isNotEmpty(userId)&&EmptyUtils.isNotEmpty(userToken)){
             String key= Constants.USER_REDIS_SESSION+":"+userId;
             String uniqueToken= (String) redisUtil.get(key);//获取当前保存的token码
-            if(EmptyUtils.isEmpty(uniqueToken)){//如果redis中没有保存
+            System.out.println(redisUtil.get(key));
+            if(EmptyUtils.isEmpty(uniqueToken)){//如果redis中没有数据
                 System.out.println("请先登录...");
                 returnErrorResponse(response,JSONResult.errorTokenMsg("请先登录"));
             }else if(!userToken.equals(uniqueToken)){//
