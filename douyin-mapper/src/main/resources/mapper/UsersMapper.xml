@@ -164,4 +164,11 @@
     <delete id="deleteUsersById" parameterType="Long">
         delete from users where id = #{id}
     </delete>
+
+    <update id="addReceiveLikeCounts" parameterType="java.lang.String">
+        update users set receive_like_counts=receive_like_counts+1 where id=#{userId}
+    </update>
+    <update id="reduceReceiveLikeCounts" parameterType="java.lang.String">
+        update users set receive_like_counts=receive_like_counts-1 where id=#{userId}
+    </update>
 </mapper>
