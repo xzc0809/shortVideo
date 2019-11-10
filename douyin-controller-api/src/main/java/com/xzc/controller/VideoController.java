@@ -8,6 +8,7 @@ import com.xzc.pojo.Videos;
 import com.xzc.service.bgm.BgmService;
 import com.xzc.service.searchRecords.SearchRecordsService;
 import com.xzc.service.users.UsersService;
+import com.xzc.service.usersLikeVideos.UsersLikeVideosService;
 import com.xzc.service.videos.VideosService;
 import com.xzc.utils.FetchVideoCover;
 import com.xzc.utils.JSONResult;
@@ -49,6 +50,8 @@ public class VideoController {
     BgmService bgmService;
     @Autowired
     SearchRecordsService searchRecordsService;
+    @Autowired
+    UsersLikeVideosService usersLikeVideosService;
 
     @ApiOperation(value = "上传用户视频", notes = "上传用户视频的接口")
     @PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
@@ -258,6 +261,29 @@ public class VideoController {
         return JSONResult.ok(searchRecordsService.getHotSearch());
 
     }
+
+    @ApiOperation(value = "添加用户喜欢视频", notes = "添加用户喜欢视频")
+    //, headers="content-type=multipart/form-data"
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id",name = "userId",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(value = "视频id",name = "videoId",paramType = "query",dataType = "int",required = true)
+    })
+    @PostMapping(value = "/userLike")
+    public JSONResult addUserLike(String userId,String videoId) throws Exception {
+        usersLikeVideosService.itriptxAddUsersLikeVideos(userId,videoId);
+        return JSONResult.ok();
+
+    }
+
+    @ApiOperation(value = "删除用户喜欢视频", notes = "删除用户喜欢视频")
+    //, headers="content-type=multipart/form-data"
+    @PostMapping(value = "/delUserLike")
+    public JSONResult delUserLike(String userId,String videoId) throws Exception {
+        usersLikeVideosService.deleteUsersLikeVideo(userId,videoId);
+        return JSONResult.ok();
+
+    }
+
 
 
 }
