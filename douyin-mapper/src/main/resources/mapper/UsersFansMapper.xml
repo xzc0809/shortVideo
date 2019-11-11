@@ -54,9 +54,11 @@
 
     <insert id="insertUsersFans" parameterType="com.xzc.pojo.UsersFans">
         insert into users_fans(
+                          id,
                         user_id,
                         fan_id)
         values(
+                    #{userId},
                      #{userId},
                     #{fanId})
     </insert>
@@ -78,5 +80,9 @@
 
     <delete id="deleteUsersFansById" parameterType="Long">
         delete from users_fans where id = #{id}
+    </delete>
+
+    <delete id="delUsersFans" parameterType="String">
+        delete from users_fans where user_id = #{userId} and fan_id=#{fansId}
     </delete>
 </mapper>

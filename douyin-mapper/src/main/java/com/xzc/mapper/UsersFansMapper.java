@@ -20,5 +20,6 @@ public interface UsersFansMapper {
 	public Integer updateUsersFans(UsersFans usersFans)throws Exception;
 
 	public Integer deleteUsersFansById(@Param(value = "id") Long id)throws Exception;
-
+//删除粉丝关系
+	public void delUsersFans(@Param(value = "userId")String userId,@Param(value = "fansId")String fansId)throws Exception;
 }
