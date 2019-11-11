@@ -39,7 +39,9 @@ public class UsersVo implements Serializable {
     //我接受到的赞美/收藏 的数量
     @ApiModelProperty(hidden = true)
     private Integer receiveLikeCounts;
-
+    //是否关注
+    @ApiModelProperty(hidden = true)
+    private boolean follow;
     //get set 方法
     public void setId(String id) {
         this.id = id;
@@ -111,5 +113,13 @@ public class UsersVo implements Serializable {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public boolean isFollow() {
+        return follow;
+    }
+
+    public void setFollow(boolean follow) {
+        this.follow = follow;
     }
 }
