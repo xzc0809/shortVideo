@@ -80,4 +80,28 @@ public class UsersServiceImpl implements UsersService {
         usersMapper.reduceReceiveLikeCounts(userId);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    @Override
+    public void addFollowsCount(String userId) throws Exception {
+        usersMapper.addFollowsCount(userId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    @Override
+    public void reduceFollowsCount(String userId) throws Exception {
+        usersMapper.reduceFollowsCount(userId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    @Override
+    public void addFansCount(String userId) throws Exception {
+        usersMapper.addFansCount(userId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)//事务管理
+    @Override
+    public void reduceFansCount(String userId) throws Exception {
+        usersMapper.reduceFansCount(userId);
+    }
+
 }
