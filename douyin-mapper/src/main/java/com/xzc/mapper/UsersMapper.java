@@ -26,4 +26,14 @@ public interface UsersMapper {
 //减少用户收到的喜欢数
 	public void reduceReceiveLikeCounts(String userId) throws Exception;
 
+//添加关注数
+	public void addFollowsCount(String userId) throws Exception;
+//减少关注数
+public void reduceFollowsCount(String userId) throws Exception;
+//添加粉丝数
+public void addFansCount(String userId) throws Exception;
+//减少粉丝数
+public void  reduceFansCount(String userId) throws Exception;
+
+
 }
