@@ -4,26 +4,24 @@ import com.xzc.common.EmptyUtils;
 import com.xzc.pojo.Users;
 import com.xzc.pojo.Vo.UsersVo;
 import com.xzc.service.users.UsersService;
+import com.xzc.service.usersFans.UsersFansService;
 import com.xzc.utils.JSONResult;
-import com.xzc.utils.MD5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author xiaozhichao
@@ -39,6 +37,8 @@ public class UserController extends BaseController {
     UsersService usersService;
     @Value("${file.space}")
     String fileSpace;//文件命名空间
+    @Autowired
+    UsersFansService usersFansService;
 
     @ApiOperation(value = "上传用户头像", notes = "上传用户头像的接口")
     @PostMapping(value = "/uploadFace")
@@ -96,19 +96,100 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "查询用户信息", notes = "查询用户信息的api")
-    @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String"),
+            @ApiImplicitParam(value = "fanId",name="fanId",paramType = "query",dataType = "String"),
+
+    })
     @PostMapping(value = "/queryUserInfo")
-    public JSONResult queryUserInfo(@RequestParam(value = "userId") String userId) throws Exception{
+    public JSONResult queryUserInfo(@RequestParam(value = "userId") String userId,@RequestParam(value = "fanId",required = false) String fanId) throws Exception{
 
         if(EmptyUtils.isEmpty(userId)){
             return JSONResult.errorMsg("id不能为空");
         }
-
+ 
         Users users=usersService.getUsersById(userId);
         UsersVo usersVo=new UsersVo();
+
+        if(EmptyUtils.isNotEmpty(fanId)){//判断关注关系
+            Map map=new HashMap();
+            map.put("userId",userId);
+            map.put("fanId",fanId);
+
+            if(usersFansService.getUsersFansCountByMap(map)!=0){
+                usersVo.setFollow(true);
+            }else{
+                usersVo.setFollow(false);
+            }
+        }
+
         BeanUtils.copyProperties(users,usersVo);
+
+
         System.out.println("queryUserInfo被调用");
         return JSONResult.ok(usersVo);
+
+    }
+
+    @ApiOperation(value = "关注用户", notes = "关注用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String"),
+            @ApiImplicitParam(value = "粉丝id",name="fansId",paramType = "query",dataType = "String")
+    })
+    @PostMapping(value = "/addUserFansById")
+    public JSONResult addUserFansById(@RequestParam(value = "userId") String userId,@RequestParam(value = "fansId") String fansId) throws Exception{
+
+        if(EmptyUtils.isEmpty(userId)||EmptyUtils.isEmpty(fansId)){
+            return JSONResult.errorMsg("id不能为空");
+        }
+        System.out.println("关注用户被调用：");
+        //添加关注数 ，添加粉丝数，添加关系
+        usersService.addFansCount(userId);
+        usersService.addFollowsCount(fansId);
+        usersFansService.itriptxAddUsersFans(userId,fansId);
+        return JSONResult.ok();
+    }
+
+    @ApiOperation(value = "取消关注用户", notes = "关注用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String"),
+            @ApiImplicitParam(value = "粉丝id",name="fansId",paramType = "query",dataType = "String")
+    })
+    @PostMapping(value = "/delUserFansById")
+    public JSONResult delUserFansById(@RequestParam(value = "userId") String userId,@RequestParam(value = "fansId") String fansId) throws Exception{
+
+        if(EmptyUtils.isEmpty(userId)||EmptyUtils.isEmpty(fansId)){
+            return JSONResult.errorMsg("id不能为空");
+        }
+        System.out.println("取消关注用户被调用：");
+        //减少关注数 ，减少粉丝数，删除关系
+        usersService.reduceFansCount(userId);
+        usersService.reduceFollowsCount(fansId);
+        usersFansService.delUsersFans(userId,fansId);
+        return JSONResult.ok();
+    }
+
+    @ApiOperation(value = "查询用户关系", notes = "查询用户关系")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String"),
+            @ApiImplicitParam(value = "粉丝id",name="fansId",paramType = "query",dataType = "String")
+    })
+    @PostMapping(value = "/queryUserFansRelationById")
+    public JSONResult queryUserFansRelationById(@RequestParam(value = "userId") String userId,@RequestParam(value = "fansId") String fansId) throws Exception{
+
+        if(EmptyUtils.isEmpty(userId)||EmptyUtils.isEmpty(fansId)){
+            return JSONResult.errorMsg("id不能为空");
+        }
+        Map map=new HashMap();
+        map.put("userId",userId);
+        map.put("fanId",fansId);
+
+        if(usersFansService.getUsersFansCountByMap(map)==1){
+            return JSONResult.ok(true);
+        }else{
+            return JSONResult.ok(false);
+        }
+
 
     }
 
