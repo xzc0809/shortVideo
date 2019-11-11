@@ -268,7 +268,7 @@ public class VideoController {
             @ApiImplicitParam(value = "用户id",name = "userId",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(value = "视频id",name = "videoId",paramType = "query",dataType = "int",required = true)
     })
-    @PostMapping(value = "/userLike")
+    @PostMapping(value = "/addUserLike")
     public JSONResult addUserLike(String userId,String videoId) throws Exception {
         usersLikeVideosService.itriptxAddUsersLikeVideos(userId,videoId);
         return JSONResult.ok();
@@ -283,7 +283,22 @@ public class VideoController {
         return JSONResult.ok();
 
     }
+    @ApiOperation(value = "查询用户喜欢视频", notes = "删除用户喜欢视频")
+    //, headers="content-type=multipart/form-data"
+    @PostMapping(value = "/queryUserLike")
+    public JSONResult queryUserLike(String userId,String videoId) throws Exception {
+        Map map=new HashMap();
+        map.put("userId",userId);
+        map.put("videoId",videoId);
+        Integer flag=usersLikeVideosService.getUsersLikeVideosCountByMap(map);
+        if(flag==1){
+            return JSONResult.ok();
+        }else{
+            return JSONResult.build(0000,null,null);
+        }
 
+
+    }
 
 
 }
