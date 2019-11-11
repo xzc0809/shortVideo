@@ -16,7 +16,7 @@ package com.xzc.service.usersLikeVideos;
 
     public Integer getUsersLikeVideosCountByMap(Map<String, Object> param)throws Exception;
 //修改后的，将对象改为具体参数
-    public Integer itriptxAddUsersLikeVideos(String userId,String videoId)throws Exception;
+    public Integer itriptxAddUsersLikeVideos(String userId,String videoId,String videoUserId)throws Exception;
 
     public Integer itriptxModifyUsersLikeVideos(UsersLikeVideos usersLikeVideos)throws Exception;
 
@@ -25,5 +25,5 @@ package com.xzc.service.usersLikeVideos;
     public Page<UsersLikeVideos> queryUsersLikeVideosPageByMap(Map<String, Object> param, Integer pageNo, Integer pageSize)throws Exception;
 
     //删除用户喜欢的视频
-    public void deleteUsersLikeVideo(String userId,String videoId) throws Exception;
+    public void deleteUsersLikeVideo(String userId,String videoId,String videoUserId) throws Exception;
     }

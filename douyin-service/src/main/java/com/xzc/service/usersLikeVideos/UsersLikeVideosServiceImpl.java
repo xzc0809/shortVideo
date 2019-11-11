@@ -40,7 +40,7 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)//事务管理
-    public Integer itriptxAddUsersLikeVideos(String userId,String videoId)throws Exception{
+    public Integer itriptxAddUsersLikeVideos(String userId,String videoId,String videoUserId)throws Exception{
         //添加喜欢视频
         //添加被喜欢视频的用户的被喜欢数
         //删除喜欢视频的被喜欢数
@@ -50,7 +50,7 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
         usersLikeVideos.setVideoId(videoId);
         usersLikeVideos.setUserId(userId);
         usersLikeVideosMapper.insertUsersLikeVideos(usersLikeVideos);
-        usersMapper.addReceiveLikeCounts(userId);
+        usersMapper.addReceiveLikeCounts(videoUserId);
         videosMapper.addVideoLikeCount(videoId);
 
         return 1;
@@ -81,12 +81,12 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)//事务管理
-    public void deleteUsersLikeVideo(String userId, String videoId) throws Exception {
+    public void deleteUsersLikeVideo(String userId, String videoId,String videoUserId) throws Exception {
         //删除喜欢视频
         //删除被喜欢视频的用户的被喜欢数
         //删除喜欢视频的被喜欢数
         usersLikeVideosMapper.deleteUsersLikeVideos(userId,videoId);
-        usersMapper.reduceReceiveLikeCounts(userId);
+        usersMapper.reduceReceiveLikeCounts(videoUserId);
         videosMapper.reduceVideoLikeCount(videoId);
 
     }

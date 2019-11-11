@@ -266,11 +266,13 @@ public class VideoController {
     //, headers="content-type=multipart/form-data"
     @ApiImplicitParams({
             @ApiImplicitParam(value = "用户id",name = "userId",paramType = "query",dataType = "int",required = true),
-            @ApiImplicitParam(value = "视频id",name = "videoId",paramType = "query",dataType = "int",required = true)
+            @ApiImplicitParam(value = "视频id",name = "videoId",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(value = "被喜欢视频的用户id",name = "videoUserId",paramType = "query",dataType = "int",required = true),
+
     })
     @PostMapping(value = "/addUserLike")
-    public JSONResult addUserLike(String userId,String videoId) throws Exception {
-        usersLikeVideosService.itriptxAddUsersLikeVideos(userId,videoId);
+    public JSONResult addUserLike(String userId,String videoId,String videoUserId) throws Exception {
+        usersLikeVideosService.itriptxAddUsersLikeVideos(userId,videoId,videoUserId);
         return JSONResult.ok();
 
     }
@@ -278,12 +280,12 @@ public class VideoController {
     @ApiOperation(value = "删除用户喜欢视频", notes = "删除用户喜欢视频")
     //, headers="content-type=multipart/form-data"
     @PostMapping(value = "/delUserLike")
-    public JSONResult delUserLike(String userId,String videoId) throws Exception {
-        usersLikeVideosService.deleteUsersLikeVideo(userId,videoId);
+    public JSONResult delUserLike(String userId,String videoId,String videoUserId) throws Exception {
+        usersLikeVideosService.deleteUsersLikeVideo(userId,videoId,videoUserId);
         return JSONResult.ok();
 
     }
-    @ApiOperation(value = "查询用户喜欢视频", notes = "删除用户喜欢视频")
+    @ApiOperation(value = "查询用户喜欢视频", notes = "查询用户喜欢视频")
     //, headers="content-type=multipart/form-data"
     @PostMapping(value = "/queryUserLike")
     public JSONResult queryUserLike(String userId,String videoId) throws Exception {
