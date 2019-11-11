@@ -49,7 +49,7 @@ public class UsersLikeVideosServiceImpl implements UsersLikeVideosService {
         usersLikeVideos.setId(id);
         usersLikeVideos.setVideoId(videoId);
         usersLikeVideos.setUserId(userId);
-        usersLikeVideosMapper.updateUsersLikeVideos(usersLikeVideos);
+        usersLikeVideosMapper.insertUsersLikeVideos(usersLikeVideos);
         usersMapper.addReceiveLikeCounts(userId);
         videosMapper.addVideoLikeCount(videoId);
 
