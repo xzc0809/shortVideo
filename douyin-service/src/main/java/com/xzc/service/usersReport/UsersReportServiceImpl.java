@@ -4,6 +4,7 @@ import com.xzc.pojo.UsersReport;
 /////
 import com.xzc.common.EmptyUtils;
 import com.xzc.common.Page;
+import org.n3r.idworker.Sid;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class UsersReportServiceImpl implements UsersReportService {
     }
 
     public Integer itriptxAddUsersReport(UsersReport usersReport)throws Exception{
-
+            String sid=new Sid().nextShort();//添加主键
+            usersReport.setId(sid);
             return usersReportMapper.insertUsersReport(usersReport);
     }
 
