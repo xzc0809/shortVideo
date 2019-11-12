@@ -12,7 +12,7 @@ import java.util.Date;
 public class UsersReport implements Serializable {
 
         //
-            @ApiModelProperty(name = "id",value = "id",required = true)
+            @ApiModelProperty(name = "id",value = "id",required = true,hidden = true)
             private String id;
         //被举报用户id
         @ApiModelProperty(name = "dealUserId",value = "被举报用户id",required = true)
@@ -30,7 +30,6 @@ public class UsersReport implements Serializable {
         @ApiModelProperty(name = "userid",value = "举报人id",required = true)
             private String userid;
         //举报时间
-        @JsonIgnore
         @ApiModelProperty(name = "createDate",value = "举报时间",required = false,hidden = true)
             private Date createDate;
         //get set 方法
