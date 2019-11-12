@@ -2,9 +2,11 @@ package com.xzc.controller;
 
 import com.xzc.common.EmptyUtils;
 import com.xzc.pojo.Users;
+import com.xzc.pojo.UsersReport;
 import com.xzc.pojo.Vo.UsersVo;
 import com.xzc.service.users.UsersService;
 import com.xzc.service.usersFans.UsersFansService;
+import com.xzc.service.usersReport.UsersReportService;
 import com.xzc.utils.JSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +41,8 @@ public class UserController extends BaseController {
     String fileSpace;//文件命名空间
     @Autowired
     UsersFansService usersFansService;
+    @Autowired
+    UsersReportService usersReportService;
 
     @ApiOperation(value = "上传用户头像", notes = "上传用户头像的接口")
     @PostMapping(value = "/uploadFace")
@@ -107,7 +111,7 @@ public class UserController extends BaseController {
         if(EmptyUtils.isEmpty(userId)){
             return JSONResult.errorMsg("id不能为空");
         }
- 
+
         Users users=usersService.getUsersById(userId);
         UsersVo usersVo=new UsersVo();
 
@@ -169,6 +173,13 @@ public class UserController extends BaseController {
         return JSONResult.ok();
     }
 
+    /**
+     * 查询用户关系
+     * @param userId
+     * @param fansId
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "查询用户关系", notes = "查询用户关系")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "用户id",name="userId",paramType = "query",dataType = "String"),
@@ -189,8 +200,19 @@ public class UserController extends BaseController {
         }else{
             return JSONResult.ok(false);
         }
+    }
 
-
+    /**
+     * 举报用户
+     * @param usersReport
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "举报用户", notes = "举报用户")
+    @PostMapping(value = "/reportUser")
+    public JSONResult reportUser(@RequestBody UsersReport usersReport) throws Exception{
+        usersReportService.itriptxAddUsersReport(usersReport);
+        return JSONResult.ok();
     }
 
 }
