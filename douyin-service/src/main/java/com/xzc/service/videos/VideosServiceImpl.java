@@ -1,4 +1,6 @@
 package com.xzc.service.videos;
+import com.xzc.mapper.UsersFansMapper;
+import com.xzc.mapper.UsersLikeVideosMapper;
 import com.xzc.mapper.VideosMapper;
 import com.xzc.mapper.VideosMapperCustom;
 import com.xzc.pojo.Videos;
@@ -23,7 +25,10 @@ public class VideosServiceImpl implements VideosService {
     private VideosMapper videosMapper;
     @Resource
     private VideosMapperCustom videosMapperCustom;
-
+    @Resource
+    private UsersLikeVideosMapper usersLikeVideosMapper;
+    @Resource
+    private UsersFansMapper usersFansMapper;
 
     public Videos getVideosById(Long id)throws Exception{
         return videosMapper.getVideosById(id);
@@ -88,4 +93,30 @@ public class VideosServiceImpl implements VideosService {
         videosMapper.addVideoLikeCount(videoId);
     }
 
+    //获取喜欢的视频
+    @Override
+    public Page queryUserLikeVideos(Integer pageNo,Integer pageSize,Map param) throws Exception {
+        Integer total = usersLikeVideosMapper.getUsersLikeVideosCountByMap(param);
+        pageNo = EmptyUtils.isEmpty(pageNo) ? Constants.DEFAULT_PAGE_NO : pageNo;
+        pageSize = EmptyUtils.isEmpty(pageSize) ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+        Page page = new Page(pageNo, pageSize, total);
+        param.put("beginPos", page.getBeginPos());
+        param.put("pageSize", page.getPageSize());
+        List<VideosVo> videosList = videosMapperCustom.queryUserLikeVideos(param);
+        page.setRows(videosList);
+        return page;
+    }
+
+    @Override
+    public Page queryUserFollowVideos(Integer pageNo,Integer pageSize,Map param) throws Exception {
+        Integer total = usersFansMapper.getUsersFansCountByMap(param);
+        pageNo = EmptyUtils.isEmpty(pageNo) ? Constants.DEFAULT_PAGE_NO : pageNo;
+        pageSize = EmptyUtils.isEmpty(pageSize) ? Constants.DEFAULT_PAGE_SIZE : pageSize;
+        Page page = new Page(pageNo, pageSize, total);
+        param.put("beginPos", page.getBeginPos());
+        param.put("pageSize", page.getPageSize());
+        List<VideosVo> videosList = videosMapperCustom.queryUserFollowVideos(param);
+        page.setRows(videosList);
+        return page;
+    }
 }

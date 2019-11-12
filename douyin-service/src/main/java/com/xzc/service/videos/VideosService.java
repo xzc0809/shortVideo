@@ -30,4 +30,9 @@ package com.xzc.service.videos;
 
     public void reduceVideoLikeCount(String videoId) throws Exception;
     public void addVideoLikeCount(String videoId) throws Exception;
-}
+
+    //获取用户喜欢的视频
+    public Page queryUserLikeVideos(Integer pageNo,Integer pageSize,Map map) throws Exception;
+    //获取关注的人发布的视频
+    public Page queryUserFollowVideos(Integer pageNo,Integer pageSize,Map<String, Object> map) throws Exception;
+    }
