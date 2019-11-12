@@ -33,6 +33,7 @@ public class UsersReportServiceImpl implements UsersReportService {
     public Integer itriptxAddUsersReport(UsersReport usersReport)throws Exception{
             String sid=new Sid().nextShort();//添加主键
             usersReport.setId(sid);
+            usersReport.setCreateDate(new Date());
             return usersReportMapper.insertUsersReport(usersReport);
     }
 
