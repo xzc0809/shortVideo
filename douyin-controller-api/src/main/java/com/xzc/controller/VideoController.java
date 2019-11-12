@@ -262,6 +262,14 @@ public class VideoController {
 
     }
 
+    /**
+     * 添加用户喜欢的视频
+     * @param userId
+     * @param videoId
+     * @param videoUserId
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "添加用户喜欢视频", notes = "添加用户喜欢视频")
     //, headers="content-type=multipart/form-data"
     @ApiImplicitParams({
@@ -277,7 +285,15 @@ public class VideoController {
 
     }
 
-    @ApiOperation(value = "删除用户喜欢视频", notes = "删除用户喜欢视频")
+    /**
+     * 删除用户喜欢的视频
+     * @param userId
+     * @param videoId
+     * @param videoUserId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "删除用户喜欢视频", notes = "删除用户喜欢视频，取消点赞")
     //, headers="content-type=multipart/form-data"
     @PostMapping(value = "/delUserLike")
     public JSONResult delUserLike(String userId,String videoId,String videoUserId) throws Exception {
@@ -285,7 +301,7 @@ public class VideoController {
         return JSONResult.ok();
 
     }
-    @ApiOperation(value = "查询用户喜欢视频", notes = "查询用户喜欢视频")
+    @ApiOperation(value = "查询用户喜欢视频的关系", notes = "查询用户喜欢视频")
     //, headers="content-type=multipart/form-data"
     @PostMapping(value = "/queryUserLike")
     public JSONResult queryUserLike(String userId,String videoId) throws Exception {
@@ -300,6 +316,83 @@ public class VideoController {
         }
 
 
+    }
+
+
+    /**
+     * 查询用户发布的作品
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "查询用户发布作品", notes = "查询用户发布的作品")
+    //, headers="content-type=multipart/form-data"
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id",
+                    dataType = "int", paramType = "query",required = true),
+            @ApiImplicitParam(name = "pageNo", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "容量，默认为10",
+                    dataType = "int", paramType = "query")
+    })
+
+    @PostMapping(value = "/queryUserPublishVideos")
+    public JSONResult queryUserPublishVideos(String userId,Integer pageNo,@RequestParam(value = "pageSize",required = false,defaultValue = "6") Integer pageSize) throws Exception {
+        Map map=new HashMap();
+        map.put("userId",userId);
+        return JSONResult.ok(videosService.getVideosVoListByMap(pageNo,pageSize,map));
+    }
+
+    /**
+     * 查询用户收藏的 作品
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "查询用户收藏的作品", notes = "查询用户收藏 的作品")
+    //, headers="content-type=multipart/form-data"
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id",
+                    dataType = "int", paramType = "query",required = true),
+            @ApiImplicitParam(name = "pageNo", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "容量，默认为6",
+                    dataType = "int", paramType = "query")
+    })
+    @PostMapping(value = "/queryUserLikeVideos")
+    public JSONResult queryUserLikeVideos(String userId,Integer pageNo,@RequestParam(value = "pageSize",required = false,defaultValue = "6") Integer pageSize) throws Exception {
+        Map map=new HashMap();
+        map.put("userId",userId);
+        return JSONResult.ok(videosService.queryUserLikeVideos(pageNo,pageSize,map));
+    }
+
+    /**
+     * 查询用户关注的人的作品
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "查询用户关注的人的的作品", notes = "查询用户关注的人的的作品")
+    //, headers="content-type=multipart/form-data"
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id",
+                    dataType = "int", paramType = "query",required = true),
+            @ApiImplicitParam(name = "pageNo", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "容量，默认为10",
+                    dataType = "int", paramType = "query")
+    })
+    @PostMapping(value = "/queryUserFollowVideos")
+    public JSONResult queryUserFollowVideos(String userId,Integer pageNo,@RequestParam(value = "pageSize",required = false,defaultValue = "6") Integer pageSize) throws Exception {
+        Map map=new HashMap();
+        map.put("fanId",userId);
+        return JSONResult.ok(videosService.queryUserFollowVideos(pageNo,pageSize,map));
     }
 
 
