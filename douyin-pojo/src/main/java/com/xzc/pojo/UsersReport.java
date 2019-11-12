@@ -1,23 +1,37 @@
 package com.xzc.pojo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 /***
 *   举报用户表
 */
+@ApiModel(description = "举报用户实体类")
 public class UsersReport implements Serializable {
+
         //
+            @ApiModelProperty(name = "id",value = "id",required = true)
             private String id;
         //被举报用户id
+        @ApiModelProperty(name = "dealUserId",value = "被举报用户id",required = true)
             private String dealUserId;
         //
+        @ApiModelProperty(name = "dealVideoId",value = "被举报视频id",required = true)
             private String dealVideoId;
         //类型标题，让用户选择，详情见 枚举
+        @ApiModelProperty(name = "title",value = "标题类型",required = true)
             private String title;
         //内容
+        @ApiModelProperty(name = "content",value = "内容",required = true)
             private String content;
         //举报人的id
+        @ApiModelProperty(name = "userid",value = "举报人id",required = true)
             private String userid;
         //举报时间
+        @JsonIgnore
+        @ApiModelProperty(name = "createDate",value = "举报时间",required = false,hidden = true)
             private Date createDate;
         //get set 方法
             public void setId (String  id){
