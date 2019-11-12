@@ -31,8 +31,20 @@ spring:
     timeout: 50000
     #默认是索引为0的数据库
     database: 2
+##上传文件的大小Mb
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
 server:
   port: 8085
+
+##上传文件路径
+file:
+  space: H:\gitReponsitory\douyin\douyin_userFiles
+  ##ffmpeg工具路径
+  ffmpegEXE: H:\tools\ffmpeg\bin\ffmpeg.exe
