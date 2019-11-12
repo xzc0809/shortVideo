@@ -86,6 +86,7 @@
 
     <insert id="insertUsersReport" parameterType="com.xzc.pojo.UsersReport">
         insert into users_report(
+                        id,
                         deal_user_id,
                         deal_video_id,
                         title,
@@ -93,6 +94,7 @@
                         userid,
                         create_date)
         values(
+                     #{id},
                      #{dealUserId},
                      #{dealVideoId},
                      #{title},
