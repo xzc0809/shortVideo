@@ -17,5 +17,9 @@ import java.util.Map;
 public interface VideosMapperCustom {
 
     public List<VideosVo> getVideosVoListByMap(Map<String, Object> param)throws Exception;
+    //获取用户喜欢的视频
+    public List<VideosVo> queryUserLikeVideos(Map<String, Object> param) throws Exception;
+    //获取用户关注的人的视频
+    public List<VideosVo> queryUserFollowVideos(Map<String, Object> map) throws Exception;
 
 }
