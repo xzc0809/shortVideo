@@ -1,23 +1,34 @@
 package com.xzc.pojo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 /***
-*   课程评论表
+*   评论表
 */
+@ApiModel(value = "评论pojo",description = "评论的实体类")
 public class Comments implements Serializable {
         //
+        @ApiModelProperty(value = "id",name = "id")
             private String id;
         //
+//        @ApiModelProperty(value = "创建时间",name = "")
             private String fatherCommentId;
         //
+//        @ApiModelProperty(value = "创建时间",name = "")
             private String toUserId;
         //视频id
+        @ApiModelProperty(value = "视频id",name = "videoId")
             private String videoId;
         //留言者，评论的用户id
+        @ApiModelProperty(value = "留言者id",name = "fromUserId")
             private String fromUserId;
         //评论内容
+        @ApiModelProperty(value = "评论内容",name = "comment")
             private String comment;
         //
+    @ApiModelProperty(value = "创建时间",name = "createTime")
             private Date createTime;
         //get set 方法
             public void setId (String  id){
