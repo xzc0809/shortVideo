@@ -15,8 +15,11 @@
                 c.comment as comment,
                 c.create_time as createTime,
                 u.nickname as nickname,
-                u.face_image as faceImage
-        from comments c left join  users u on u.id=c.from_user_id
+                u.face_image as faceImage,
+                tu.nickname as toNickname
+        from comments c
+        left join  users u on u.id=c.from_user_id
+        left join  users tu on tu.id=c.to_user_id
         <trim prefix="where" prefixOverrides="and | or">
 
                     <if test="videoId != null and videoId!=''">
