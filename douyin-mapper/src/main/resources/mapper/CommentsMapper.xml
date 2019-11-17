@@ -51,8 +51,8 @@
                         and comment=#{comment}
                     </if>
         </trim>
-         order by creationDate desc
-        <if test="beginPos != null and beginPos!='' and pageSize != null  and pageSize !='' ">
+         order by createTime desc
+        <if test="beginPos != null and pageSize != null">
             limit #{beginPos},#{pageSize}
         </if>
     </select>
@@ -86,6 +86,7 @@
 
     <insert id="insertComments" parameterType="com.xzc.pojo.Comments">
         insert into comments(
+                        id,
                         father_comment_id,
                         to_user_id,
                         video_id,
@@ -93,6 +94,7 @@
                         comment,
                         create_time)
         values(
+                      #{id},
                      #{fatherCommentId},
                      #{toUserId},
                      #{videoId},
