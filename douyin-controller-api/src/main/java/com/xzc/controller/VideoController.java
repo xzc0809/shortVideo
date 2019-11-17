@@ -3,9 +3,11 @@ package com.xzc.controller;
 import com.xzc.common.EmptyUtils;
 import com.xzc.enums.VideoStatusEnum;
 import com.xzc.pojo.Bgm;
+import com.xzc.pojo.Comments;
 import com.xzc.pojo.SearchRecords;
 import com.xzc.pojo.Videos;
 import com.xzc.service.bgm.BgmService;
+import com.xzc.service.comments.CommentsService;
 import com.xzc.service.searchRecords.SearchRecordsService;
 import com.xzc.service.users.UsersService;
 import com.xzc.service.usersLikeVideos.UsersLikeVideosService;
@@ -52,6 +54,8 @@ public class VideoController {
     SearchRecordsService searchRecordsService;
     @Autowired
     UsersLikeVideosService usersLikeVideosService;
+    @Autowired
+    CommentsService commentsService;
 
     @ApiOperation(value = "上传用户视频", notes = "上传用户视频的接口")
     @PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
@@ -394,6 +398,39 @@ public class VideoController {
         map.put("fanId",userId);
         return JSONResult.ok(videosService.queryUserFollowVideos(pageNo,pageSize,map));
     }
+
+    /**
+     * 保存评论
+     * @param comments
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "添加视频评论", notes = "添加视频评论")
+    //, headers="content-type=multipart/form-data"
+    @PostMapping(value = "/saveComment")
+    public JSONResult saveComment(@RequestBody Comments comments) throws Exception {
+
+        commentsService.itriptxAddComments(comments);
+        return JSONResult.ok();
+    }
+
+    @ApiOperation(value = "获取视频评论", notes = "获取视频评论")
+    //, headers="content-type=multipart/form-data"
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNo", value = "页码",
+                    dataType = "int", paramType = "query",example = "1",defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "页码容量",
+                    dataType = "int", paramType = "query",example = "1",defaultValue = "1"),
+            @ApiImplicitParam(name = "videoId", value = "视频id",
+                    dataType = "int", paramType = "query",required = true)
+    })
+    @PostMapping(value = "/getCommentVOList")
+    public JSONResult getCommentVOList(@RequestParam(value = "pageNo",defaultValue = "1",required = false)Integer pageNo,@RequestParam(value = "pageSize",defaultValue = "10",required = false)Integer pageSize,String videoId) throws Exception {
+        Map map=new HashMap();
+        map.put("videoId",videoId);
+        return JSONResult.ok(commentsService.getCommentsVOPageByMap(pageNo,pageSize,map));
+    }
+
 
 
 }
