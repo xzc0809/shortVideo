@@ -42,6 +42,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
 //        registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**");//填写拦截路径,接口路径
-
+        registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
+                .addPathPatterns("/video/upload", "/video/uploadCover",
+                        "/video/userLike", "/video/userUnLike",
+                        "/video/saveComment")
+                .addPathPatterns("/bgm/**")
+                .excludePathPatterns("/user/queryPublisher");
     }
 }
