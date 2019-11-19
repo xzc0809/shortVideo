@@ -14,6 +14,7 @@ import com.xzc.service.usersLikeVideos.UsersLikeVideosService;
 import com.xzc.service.videos.VideosService;
 import com.xzc.utils.FetchVideoCover;
 import com.xzc.utils.JSONResult;
+import com.xzc.utils.LinuxUtils;
 import com.xzc.utils.MergeVideoMp3;
 import io.swagger.annotations.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -44,8 +45,8 @@ public class VideoController {
     UsersService usersService;
     @Value("${file.space}")
     String fileSpace;//文件命名空间
-    @Value("${file.ffmpegEXE}")
-    String ffmpegEXE;
+//    @Value("${file.ffmpegEXE}")
+//    String ffmpegEXE;
     @Autowired
     VideosService videosService;
     @Autowired
@@ -90,10 +91,15 @@ public class VideoController {
                     uploadPathDB = "/" + userId + "/video" + "/" + filename;   //数据库相对路径
                     finalPath = fileSpace + uploadPathDB;//最终视频的绝对的存储地址
                     File outFile = new File(finalPath);
-                    System.out.println(finalPath);
+                    LinuxUtils tools=new LinuxUtils();
+                    //封面的数据库相对路径
+                    coverPathDB = "/" + userId + "/video/" + filename + ".jpg";
+                    //生成视频的封面
+                    tools.getCover(finalPath, fileSpace + coverPathDB);
 
                     if (outFile.getParentFile() != null || !outFile.getParentFile().isDirectory()) {
                         outFile.getParentFile().mkdirs(); //创建父文件夹
+                        outFile.createNewFile();
                     }
                     fileOutputStream = new FileOutputStream(outFile);
                     inputStream = file.getInputStream();
@@ -118,8 +124,8 @@ public class VideoController {
         if (EmptyUtils.isNotEmpty(bgmId)) {//bgm不为空
 
             Bgm bgm = bgmService.getBgmById(bgmId);
-            String inputBgmPath = fileSpace + bgm.getPath();//音乐绝对地址
-            MergeVideoMp3 tools = new MergeVideoMp3("H:\\tools\\ffmpeg\\bin\\ffmpeg.exe");//ffmpeg.exe文件路径  视频转换工具类
+            String inputBgmPath = fileSpace + bgm.getPath();//获取音乐绝对地址
+//            MergeVideoMp3 tools = new MergeVideoMp3(ffmpegEXE);//ffmpeg.exe文件路径  视频转换工具类  弃用
 
             String newVideoName = UUID.randomUUID().toString();//创建新名字
             uploadPathDB = "/" + userId + "/video" + "/" + newVideoName + ".mp4";//最终数据库相对路径
@@ -129,16 +135,26 @@ public class VideoController {
              * 再合成视频和音频newVideoName2+bgm
              * 最后输出视频newVideoName.mp4
              */
-            String removeVoiceOutPath = fileSpace + "/" + userId + "/video" + "/" + newVideoName + "2" + ".mp4";//音频消除后的视频文件路径
+            //新建工具类
+            LinuxUtils tools=new LinuxUtils();
+            //获取音频消除后的视频文件路径
+            String removeVoiceOutPath = fileSpace + "/" + userId + "/video" + "/" + newVideoName + "2" + ".mp4";
+            //视频输出的地址
             String inputVideoPath = finalPath;
-            tools.removeVoice(inputVideoPath, removeVoiceOutPath);//消除背景音
-            finalPath = fileSpace + uploadPathDB;//最后的文件合成输出路径
+            //消除背景音
+            tools.removeVoice(inputVideoPath, removeVoiceOutPath);
+            //最后的文件合成输出路径
+            finalPath = fileSpace + uploadPathDB;
             tools.convertor(removeVoiceOutPath, inputBgmPath, videoSeconds, finalPath);//转换工具合成视频
 //            tools.delFile(fileSpace+"/" + userId + "/video" ,newVideoName+"2"+".mp4");//删除被消除背景音的视频
-            FetchVideoCover fetchVideoCover = new FetchVideoCover();
-            fetchVideoCover.setFfmpegEXE(ffmpegEXE);//ffmpeg程序路径
+
+//            FetchVideoCover fetchVideoCover = new FetchVideoCover();
+//            fetchVideoCover.setFfmpegEXE(ffmpegEXE);//ffmpeg程序路径
+
+            //封面的数据库相对路径
             coverPathDB = "/" + userId + "/video/" + newVideoName + ".jpg";
-            fetchVideoCover.getCover(finalPath, fileSpace + coverPathDB);
+            //生成视频的封面
+            tools.getCover(finalPath, fileSpace + coverPathDB);
 
         }
         System.out.println("finalPath:" + finalPath);
