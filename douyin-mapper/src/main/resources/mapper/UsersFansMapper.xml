@@ -58,7 +58,7 @@
                         user_id,
                         fan_id)
         values(
-                    #{userId},
+                    #{id},
                      #{userId},
                     #{fanId})
     </insert>
