@@ -19,9 +19,25 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {//右键source，重写或实现
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/META-INF/resources/")
-                .addResourceLocations("file:H:\\gitReponsitory\\douyin\\douyin_userFiles\\");//映射文件夹
+        String os = System.getProperty("os.name");
+
+        if (os.toLowerCase().startsWith("win")) {  //如果是Windows系统
+
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/META-INF/resources/")
+//                   .addResourceLocations("file:xiaozc.xyz:8086/userFiles/");
+                    .addResourceLocations("file:H:\\gitReponsitory\\douyin\\douyin_userFiles\\");//映射文件夹
+
+        } else {  //linux 和mac
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/META-INF/resources/")  //swagger2页面;
+                .addResourceLocations("file:/root/douyin/www/userFiles/");   //媒体资源
+        }
+
+//        registry.addResourceHandler("/**")
+//                .addResourceLocations("classpath:/META-INF/resources/")
+//                .addResourceLocations("file:xiaozc.xyz:8086/userFiles/");
+        //                .addResourceLocations("file:H:\\gitReponsitory\\douyin\\douyin_userFiles\\");//映射文件夹
     }
 
 
@@ -46,7 +62,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 .addPathPatterns("/video/upload", "/video/uploadCover",
                         "/video/userLike", "/video/userUnLike",
                         "/video/saveComment")
-                .addPathPatterns("/bgm/**")
+//                .addPathPatterns("/bgm/**")
                 .excludePathPatterns("/user/queryPublisher");
     }
 }
